@@ -11,55 +11,43 @@ namespace SpyServer
 {
     class Server
     {
+        private const int port = 5000;
+
         static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
-        private MainWindow mainWindow;
+        private ServerPanel mainWindow;
 
-        public void StartServer(MainWindow window)
+        public Server(ServerPanel window)
         {
-            mainWindow = window;          
-
-            
-            //WriteInfo("Start Server");
+            mainWindow = window;
+            WriteInfoAsync("Uruchomiono server");
+            //Start thread listening for connecting clients
             Thread t = new Thread(ListenForClients);
             t.Start();
+            WriteInfoAsync("Oczekuję klientów");
         }
 
         private void ListenForClients()
         {
             int count = 1;
-            TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, port);
 
             ServerSocket.Start();
             while (true)
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
                 lock (_lock) list_clients.Add(count, client);
+
+                //Start thread listening for messages from clients
                 Thread ct = new Thread(new ParameterizedThreadStart(o => ReceiveData((TcpClient)o)));
                 ct.Start(client);
-                //Thread ct = new Thread(o => ReceiveData((TcpClient)o));
-                //ct.Start();
-                //WriteInfoAsync("Someone connected!!");
-                
-                
+                WriteInfoAsync("Połączono z nowym klientem");
 
-                //Thread t = new Thread(HandleClients);
-                //t.Start(count);
                 count++;
             }
         }
 
-        private void WriteInfo(string text)
-        {
-            mainWindow.INFO.Text += text;
-        }
-        private void WriteInfoAsync(string text)
-        {
-            mainWindow.INFO.Dispatcher.Invoke(() =>
-            {
-                mainWindow.INFO.Text += text;
-            });
-        }
+        /*No jobs for that function
         public void HandleClients(object o)
         {
             int id = (int)o;
@@ -87,7 +75,9 @@ namespace SpyServer
             client.Client.Shutdown(SocketShutdown.Both);
             client.Close();
         }
+        */
 
+        //Get data from client
         public void ReceiveData(TcpClient client)
         {
             byte[] receivedBytes = new byte[1024];
@@ -95,10 +85,11 @@ namespace SpyServer
 
             while ((byte_count = client.GetStream().Read(receivedBytes, 0, receivedBytes.Length)) > 0)
             {
-                WriteInfoAsync("- Server reading:  <<" + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + ">>\n");
+                WriteInfoAsync("- Server reading:  <<" + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + ">>");
             }
         }
 
+        //Send data to all clients
         public void Broadcast(string data)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(data);
@@ -112,6 +103,21 @@ namespace SpyServer
                     stream.Write(buffer, 0, buffer.Length);
                 }
             }
+        }
+
+        //Write logs on GUI panel
+        private void WriteInfo(string text)
+        {
+            mainWindow.LogTextBox.Text += text;
+        }
+
+        //Write logs on GUI panel async
+        private void WriteInfoAsync(string text)
+        {
+            mainWindow.LogTextBox.Dispatcher.Invoke(() =>
+            {
+                mainWindow.LogTextBox.Text += text + "\n";
+            });
         }
 
     }

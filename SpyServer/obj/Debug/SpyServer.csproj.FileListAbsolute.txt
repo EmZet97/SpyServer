@@ -13,3 +13,9 @@ D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.csproj.GenerateResource.cache
 D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.csproj.CoreCompileInputs.cache
 D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.exe
 D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.pdb
+D:\GitHub\SpyServer\SpyServer\obj\Debug\ClientPanel.g.cs
+D:\GitHub\SpyServer\SpyServer\obj\Debug\ServerPanel.g.cs
+D:\GitHub\SpyServer\SpyServer\obj\Debug\StartPanel.g.cs
+D:\GitHub\SpyServer\SpyServer\obj\Debug\ClientPanel.baml
+D:\GitHub\SpyServer\SpyServer\obj\Debug\ServerPanel.baml
+D:\GitHub\SpyServer\SpyServer\obj\Debug\StartPanel.baml

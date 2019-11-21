@@ -16,26 +16,23 @@ using System.Windows.Shapes;
 namespace SpyServer
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Logika interakcji dla klasy StartPanel.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StartPanel : Page
     {
-        static int clients = 0;
-        private Server server;
-        private Client client;
-        public static Frame frame;
-        public MainWindow()
+        public StartPanel()
         {
             InitializeComponent();
-            frame = PageFrame;
-            MainWindow.NavigateFrame(new StartPanel());
         }
 
-        public static void NavigateFrame(object panel)
+        private void ServerButton_Click(object sender, RoutedEventArgs e)
         {
-            frame.Navigate(panel);
+            MainWindow.NavigateFrame(new ServerPanel());
         }
 
-     
+        private void ClientButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.NavigateFrame(new ClientPanel());
+        }
     }
 }

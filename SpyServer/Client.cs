@@ -13,64 +13,40 @@ namespace SpyServer
     class Client
     {
         private string name;
-        private NetworkStream ns;
-        private MainWindow mainWindow;
-        private TcpClient server;
+        private static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
+        private const int port = 5000;
 
-        public Client(string name)
+        private NetworkStream ns;
+        private ClientPanel mainWindow;
+
+        public Client(string name, ClientPanel window)
         {
             this.name = name;
-        }
-        public void StartClient(MainWindow window)
-        {
             mainWindow = window;
+
+        }
+        public void Start()
+        {
+            WriteInfoAsync("Uruchamiam połączenie");
+            //Start thread connecting client to server
             Thread thread = new Thread(ConnectClient);
             thread.Start();
         }
         private void ConnectClient()
-        {
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            int port = 5000;
+        {            
             TcpClient client = new TcpClient();
-            server = client;
-            client.Connect(ip, port);
-            //WriteInfoAsync("client connected!!");
+            client.Connect(serverIP, port);
             ns = client.GetStream();
-            
+            WriteInfoAsync("Połączono z serwerem");
+
+            //Start new thread receiving messages from server
             Thread thread = new Thread(o => ReceiveData());
-
             thread.Start(client);
-            /*
-            string s;
-            while (!string.IsNullOrEmpty((s = Console.ReadLine())))
-            {
-                byte[] buffer = Encoding.ASCII.GetBytes(s);
-                ns.Write(buffer, 0, buffer.Length);
-            }
-
-            client.Client.Shutdown(SocketShutdown.Send);
-            thread.Join();
-            ns.Close();
-            client.Close();
-            WriteInfoAsync("disconnect from server!!");
-            //Console.ReadKey();*/
         }
         public void Disconnect()
         {
 
-        }
-
-        private void WriteInfo(string text)
-        {
-            mainWindow.INFO.Text += text;
-        }
-        private void WriteInfoAsync(string text)
-        {
-            mainWindow.INFO.Dispatcher.Invoke(() =>
-            {
-                mainWindow.INFO.Text += text;
-            });
-        }
+        }        
 
         public void ReceiveData()
         {
@@ -79,7 +55,7 @@ namespace SpyServer
 
             while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
             {
-                WriteInfoAsync("-" + name + " reading:  <<" + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + ">>\n");
+                WriteInfoAsync("-" + name + " reading:  <<" + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + ">>");
                 
             }
         }
@@ -92,15 +68,20 @@ namespace SpyServer
             else
                 data = text + name;
             byte[] buffer = Encoding.ASCII.GetBytes(data);
-            //BinaryWriter writer = new BinaryWriter(ns);
             ns.Write(buffer, 0, buffer.Length);
-            //ns.Close();
-            //ns = server.GetStream();
-            //ns.Flush();
-            
-            //writer.Write("Hello there, it's " + name);
-            //writer.Close();
         }
+
+        private void WriteInfo(string text)
+        {
+            mainWindow.LogTextBox.Text += text;
+        }
+        private void WriteInfoAsync(string text)
+        {
+            mainWindow.LogTextBox.Dispatcher.Invoke(() =>
+            {
+                mainWindow.LogTextBox.Text += text + "\n";
+            });
+        }   
     }
 
 
