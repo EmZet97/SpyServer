@@ -1,0 +1,15 @@
+D:\GitHub\SpyServer\SpyServer\bin\Debug\SpyServer.exe.config
+D:\GitHub\SpyServer\SpyServer\bin\Debug\SpyServer.exe
+D:\GitHub\SpyServer\SpyServer\bin\Debug\SpyServer.pdb
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.csprojAssemblyReference.cache
+D:\GitHub\SpyServer\SpyServer\obj\Debug\MainWindow.g.cs
+D:\GitHub\SpyServer\SpyServer\obj\Debug\App.g.cs
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer_MarkupCompile.cache
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer_MarkupCompile.lref
+D:\GitHub\SpyServer\SpyServer\obj\Debug\MainWindow.baml
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.g.resources
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.Properties.Resources.resources
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.csproj.GenerateResource.cache
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.csproj.CoreCompileInputs.cache
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.exe
+D:\GitHub\SpyServer\SpyServer\obj\Debug\SpyServer.pdb

@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:SpyServer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <StackPanel>
         
-    </Grid>
+        <Button x:Name="ServerButton" Content="Start Server" Click="ServerButton_Click"></Button>
+        <Button x:Name="ClientButton" Content="Start Client" Click="ClientButton_Click"></Button>
+        <Button x:Name="ServerSendButton" Content="Send From Server" Click="SendButton_Click"></Button>
+        <Button x:Name="ClientSendButton" Content="Send From Last Client" Click="ClientSendButton_Click"></Button>
+        <TextBlock x:Name="INFO"></TextBlock>
+        
+    </StackPanel>
 </Window>
