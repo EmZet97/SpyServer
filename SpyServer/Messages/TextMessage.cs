@@ -13,7 +13,10 @@ namespace SpyServer
         {
             if(Content[0] == Byte.Parse("2"))
             {
-                return "zwracam tekst";
+                byte[] arr = Content.Skip(1).Take(20).ToArray();
+                string converted = Encoding.UTF8.GetString(arr, 0, arr.Length);
+                char[] charsToTrim = { '*', ' ', '\'' };
+                return converted.Length + converted.Trim(charsToTrim);
             }
             else
             {

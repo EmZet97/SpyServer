@@ -22,7 +22,9 @@ namespace SpyServer
         public ClientPanel()
         {
             InitializeComponent();
-            client = new Client("Klient", this);
+            Random random = new Random();
+            int randomNumber = random.Next(0, 100);
+            client = new Client("Klient(id:" + randomNumber + ")", this);
             client.Start();
         }
 
