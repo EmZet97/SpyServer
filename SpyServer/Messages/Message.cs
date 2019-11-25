@@ -10,11 +10,12 @@ namespace SpyServer
     {
         private int requestCode;
         private byte[] content;
-        private Message next;
+        public Message Next { get; set; }
 
         public byte[] Content { get; set; }
-        //public Object GetObject() { }
+        public Object MessageObject{ get; set; }
 
         public abstract Object GetSpecyficObject();
+        public abstract void SetSpecyficObject(Object obj);
     }
 }

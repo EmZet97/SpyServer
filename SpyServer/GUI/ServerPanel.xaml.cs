@@ -16,16 +16,25 @@ using System.Windows.Shapes;
 namespace SpyServer
 {
     /// <summary>
-    /// Logika interakcji dla klasy ClientPanel.xaml
+    /// Logika interakcji dla klasy ServerPanel.xaml
     /// </summary>
-    public partial class ClientPanel : Page
+    public partial class ServerPanel : Page
     {
-        Client client;
-        public ClientPanel()
+        Server server;
+        public ServerPanel()
         {
             InitializeComponent();
-            client = new Client("Klient", this);
-            client.Start();
+            server = new Server(this);
+        }
+
+        private void SsButton_Click(object sender, RoutedEventArgs e)
+        {
+            server.Broadcast("2");
+        }
+
+        private void KlRadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            server.Broadcast("3");
         }
     }
 }

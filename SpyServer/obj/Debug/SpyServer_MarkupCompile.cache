@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\GitHub\SpyServer\SpyServer\App.xaml
-41657640177
+4127129227
 
-121466054036
-13-1505183044
-ClientPanel.xaml;MainWindow.xaml;ServerPanel.xaml;StartPanel.xaml;
+17567777364
+141183416626
+GUI\ClientPanel.xaml;MainWindow.xaml;GUI\ServerPanel.xaml;GUI\StartPanel.xaml;
 
 False
 

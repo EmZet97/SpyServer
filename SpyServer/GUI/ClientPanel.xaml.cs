@@ -10,31 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SpyServer
 {
     /// <summary>
-    /// Logika interakcji dla klasy ServerPanel.xaml
+    /// Logika interakcji dla klasy ClientPanel.xaml
     /// </summary>
-    public partial class ServerPanel : Page
+    public partial class ClientPanel : Page
     {
-        Server server;
-        public ServerPanel()
+        Client client;
+        public ClientPanel()
         {
             InitializeComponent();
-            server = new Server(this);
+            client = new Client("Klient", this);
+            client.Start();
         }
 
-        private void SsButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void KlRadioButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

