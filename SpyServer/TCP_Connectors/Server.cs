@@ -23,18 +23,42 @@ namespace SpyServer
         Message msg_reader = null;
         private static int lastImage = 0;
 
+        private readonly Thread clientsListenerThread;
+        private List<Thread> clientsReaderThread;
+
         public Server(ServerPanel window)
         {
             mainWindow = window;
+
             WriteInfoAsync("Uruchomiono server");
+
             //Start thread listening for connecting clients
-            Thread t = new Thread(ListenForClients);
-            t.Start();
+            clientsListenerThread = new Thread(ListenForClients);
+            clientsListenerThread.Start();
+            clientsReaderThread = new List<Thread>();
+
             WriteInfoAsync("Oczekuję klientów");
+
+            //Build message reader chain
             Message first = new TextMessage();
             Messages.MessageReaderBuilder msgBuilder = new Messages.MessageReaderBuilder(first);
             msgBuilder.AddNext(new ImageMessage());
             msg_reader = msgBuilder.GetChain();
+        }
+
+        ~Server()
+        {
+            Stop();
+        }
+
+        public void Stop()
+        {
+            clientsListenerThread.Abort();
+            foreach (Thread clientReader in clientsReaderThread)
+            {
+                clientReader.Abort();
+            }
+            Console.WriteLine("Threads deleted");
         }
 
         private void ListenForClients()
@@ -49,8 +73,10 @@ namespace SpyServer
                 lock (_lock) list_clients.Add(count, client);
 
                 //Start thread listening for messages from clients
-                Thread ct = new Thread(new ParameterizedThreadStart(o => ReceiveData((TcpClient)o)));
+                Thread ct = new Thread(new ParameterizedThreadStart(o => ReceiveData((TcpClient)o)));                
                 ct.Start(client);
+                clientsReaderThread.Add(ct);
+
                 WriteInfoAsync("Połączono z nowym klientem");
 
                 count++;

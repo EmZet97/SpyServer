@@ -36,5 +36,12 @@ namespace SpyServer
         {
             server.Broadcast("3");
         }
+
+        ~ServerPanel()
+        {
+            server.Stop();
+        }
+
+        
     }
 }

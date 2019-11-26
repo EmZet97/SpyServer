@@ -32,15 +32,24 @@ namespace SpyServer
             thread.Start();
         }
         private void ConnectClient()
-        {            
-            TcpClient client = new TcpClient();
-            client.Connect(serverIP, port);
-            ns = client.GetStream();
-            WriteInfoAsync("Połączono z serwerem");
+        {
+            try
+            {
+                TcpClient client = new TcpClient();
+                client.Connect(serverIP, port);
+                ns = client.GetStream();
+                WriteInfoAsync("Połączono z serwerem");
 
-            //Start new thread receiving messages from server
-            Thread thread = new Thread(o => ReceiveData());
-            thread.Start(client);
+                //Start new thread receiving messages from server
+                Thread thread = new Thread(o => ReceiveData());
+                thread.Start(client);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                WriteInfoAsync("Host odmawia połączenia");
+                //ConnectClient();
+            }
+            
         }
         public void Disconnect()
         {
